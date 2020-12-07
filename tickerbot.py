@@ -39,14 +39,14 @@ class TickerBot(Plugin):
         try:
             response = requests.request("GET", url, headers=headers, params=querystring)
         except Exception as e:
-            evt.respond(f"request failed: {e.message}")
+            await evt.respond(f"request failed: {e.message}")
             return None
         try:
             jsonresponse = response.json()['quoteResponse']['result'][0]
             openDifference = f"{jsonresponse['regularMarketPrice'] - jsonresponse['regularMarketOpen']:.2f}"
             openPercentDiff = f"{(float(openDifference) / jsonresponse['regularMarketOpen'] * 100):.2f}%"
         except Exception as e:
-            evt.respond("No results, double check that you've chosen a real ticker symbol")
+            await evt.respond("No results, double check that you've chosen a real ticker symbol")
             self.log.exception(e)
             return None
         
@@ -59,7 +59,8 @@ class TickerBot(Plugin):
 
         prettyMessage = "<br />".join(
                 [
-                    f"<b>Current data for {tickerUpper}:</b>" ,
+                    f"<b>Current data for <a href=\"https://finance.yahoo.com/quote/{tickerUpper}\">\
+                            {jsonresponse['longName']}</a> ({tickerUpper}):</b>" ,
                     f"",
                     f"<b>Price:</b> <font color=\"{color}\">${str(jsonresponse['regularMarketPrice'])}, \
                             {arrow}{openPercentDiff}</font> from market open @ ${str(jsonresponse['regularMarketOpen'])}",

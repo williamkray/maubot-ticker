@@ -4,7 +4,9 @@ from mautrix.util.config import BaseProxyConfig, ConfigUpdateHelper
 from maubot import Plugin, MessageEvent
 from maubot.handlers import command
 
-import requests
+# not necessary, as it's imported by maubot already
+#import asyncio
+#import aiohttp
 import json
 
 class Config(BaseProxyConfig):
@@ -29,22 +31,22 @@ class TickerBot(Plugin):
         await evt.mark_read()
 
         tickerUpper = ticker.upper()
-        url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes"
-        querystring = {"symbols":tickerUpper}
+        url = f"https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?symbols={tickerUpper}"
         headers = {
             'x-rapidapi-key': self.config["apiKey"],
             'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com"
             }
         
         try:
-            response = requests.request("GET", url, headers=headers, params=querystring)
+            response = await self.http.get(url, headers=headers)
+            resp_json = await response.json()
         except Exception as e:
             await evt.respond(f"request failed: {e.message}")
             return None
         try:
-            jsonresponse = response.json()['quoteResponse']['result'][0]
-            openDifference = f"{jsonresponse['regularMarketPrice'] - jsonresponse['regularMarketOpen']:.2f}"
-            openPercentDiff = f"{(float(openDifference) / jsonresponse['regularMarketOpen'] * 100):.2f}%"
+            pruned_json = resp_json['quoteResponse']['result'][0]
+            openDifference = f"{pruned_json['regularMarketPrice'] - pruned_json['regularMarketOpen']:.2f}"
+            openPercentDiff = f"{(float(openDifference) / pruned_json['regularMarketOpen'] * 100):.2f}%"
         except Exception as e:
             await evt.respond("No results, double check that you've chosen a real ticker symbol")
             self.log.exception(e)
@@ -60,12 +62,12 @@ class TickerBot(Plugin):
         prettyMessage = "<br />".join(
                 [
                     f"<b>Current data for <a href=\"https://finance.yahoo.com/quote/{tickerUpper}\">\
-                            {jsonresponse['longName']}</a> ({tickerUpper}):</b>" ,
+                            {pruned_json['longName']}</a> ({tickerUpper}):</b>" ,
                     f"",
-                    f"<b>Price:</b> <font color=\"{color}\">${str(jsonresponse['regularMarketPrice'])}, \
-                            {arrow}{openPercentDiff}</font> from market open @ ${str(jsonresponse['regularMarketOpen'])}",
-                    f"<b>52 Week High:</b> ${str(jsonresponse['fiftyTwoWeekHigh'])}",
-                    f"<b>52 Week Low:</b> ${str(jsonresponse['fiftyTwoWeekLow'])}"
+                    f"<b>Price:</b> <font color=\"{color}\">${str(pruned_json['regularMarketPrice'])}, \
+                            {arrow}{openPercentDiff}</font> from market open @ ${str(pruned_json['regularMarketOpen'])}",
+                    f"<b>52 Week High:</b> ${str(pruned_json['fiftyTwoWeekHigh'])}",
+                    f"<b>52 Week Low:</b> ${str(pruned_json['fiftyTwoWeekLow'])}"
                 ]
             )
         

@@ -11,7 +11,7 @@ import json
 
 class Config(BaseProxyConfig):
     def do_update(self, helper: ConfigUpdateHelper) -> None:
-        helper.copy("apiKey")
+        helper.copy("rapidapiKey")
         helper.copy("stocktrigger")
         helper.copy("cryptotrigger")
 
@@ -33,7 +33,7 @@ class TickerBot(Plugin):
         tickerUpper = ticker.upper()
         url = f"https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?symbols={tickerUpper}"
         headers = {
-            'x-rapidapi-key': self.config["apiKey"],
+            'x-rapidapi-key': self.config["rapidapiKey"],
             'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com"
             }
         

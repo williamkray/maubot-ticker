@@ -28,8 +28,15 @@ class TickerBot(Plugin):
     @command.new(name=lambda self: self.config["stocktrigger"],
             help="Look up information about a stock by its ticker symbol")
     @command.argument("ticker", pass_raw=True, required=True)
-    async def handler(self, evt: MessageEvent, ticker: str) -> None:
+    async def stock_handler(self, evt: MessageEvent, ticker: str) -> None:
         await evt.mark_read()
+
+        if ticker.lower() == "help":
+            await evt.mark_read()
+
+            await evt.respond("Look up information about a stock using its ticker symbol, for example: <br />\
+                            <code>!" + self.config["stocktrigger"] + " tsla</code>", allow_html=True)
+            return None
 
         tickerUpper = ticker.upper()
         url = f"https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?symbols={tickerUpper}"
@@ -78,10 +85,18 @@ class TickerBot(Plugin):
 
 
     @command.new(name=lambda self: self.config["cryptotrigger"],
-            help="Look up exchange rate of a currency pair. You must supply a pair, e.g. BTC/USD or ADA/ETH, otherwise USD will be used by default.")
+            help="Look up exchange rate of a currency pair.")
     @command.argument("exch_pair", pass_raw=True, required=True)
-    async def handler(self, evt: MessageEvent, exch_pair: str) -> None:
+    async def crypto_handler(self, evt: MessageEvent, exch_pair: str) -> None:
         await evt.mark_read()
+
+        if exch_pair.lower() == "help":
+            await evt.mark_read()
+
+            await evt.respond("Look up information about a currency pair, for example: <br />\
+                        <code>!" + self.config["cryptotrigger"] + " btc/eth</code><br />\
+                        If no exchange currency is supplied, USD will be used by default.", allow_html=True)
+            return None
 
         exch_pair = exch_pair.upper()
         if '/' not in exch_pair:

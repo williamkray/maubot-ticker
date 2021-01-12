@@ -12,6 +12,7 @@ update the commands you want to use, by default stock data is returned with the 
 `!stonks tsla`
 
 would return something like this:
+
 ![stonks response](images/stonks.png)
 
 and
@@ -19,4 +20,5 @@ and
 `!hodl btc/ada`
 
 would return something like this:
+
 ![hodl response](images/hodl.png)

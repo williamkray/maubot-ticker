@@ -1,6 +1,12 @@
-# api key to use for https://rapidapi.com/apidojo/api/yahoo-finance1
+# API key for RapidAPI https://rapidapi.com/apidojo/api/yahoo-finance1
 rapidapiKey: mYsUp3rs3CretKEY12345
+# API key for CoinAPI (https://www.coinapi.io/)
 coinapiioKey: mYsUp3rs3CretKEY12345
 
+# Triggers
 stocktrigger: stonks
 cryptotrigger: hodl
+
+# Hostname header RapidAPI expects
+rapidapiHost: yh-finance.p.rapidapi.com
+

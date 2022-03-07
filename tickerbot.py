@@ -15,6 +15,7 @@ class Config(BaseProxyConfig):
         helper.copy("coinapiioKey")
         helper.copy("stocktrigger")
         helper.copy("cryptotrigger")
+        helper.copy("rapidapiHost")
 
 class TickerBot(Plugin):
     async def start(self) -> None:
@@ -39,10 +40,10 @@ class TickerBot(Plugin):
             return None
 
         tickerUpper = ticker.upper()
-        url = f"https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?symbols={tickerUpper}"
+        url = f'https://{self.config["rapidapiHost"]}/market/v2/get-quotes?symbols={tickerUpper}'
         headers = {
             'x-rapidapi-key': self.config["rapidapiKey"],
-            'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com"
+            'x-rapidapi-host': self.config["rapidapiHost"]
             }
         
         try:

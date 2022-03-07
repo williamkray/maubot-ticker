@@ -3,8 +3,9 @@ a simple maubot module that responds with financial data about stock price or cr
 To install, please see the [standard maubot plugin installation instructions](https://github.com/maubot/maubot/wiki/Usage#adding-a-plugin)
 
 note: this module depends on having an api key for the following services
-[RapidAPI](https://rapidapi.com/marketplace) (used for the yahoo-finance api endpoints, which you must subscribe to in your account settings)
-[CoinAPI](https://www.coinapi.io/Pricing)
+
+- [RapidAPI](https://rapidapi.com/marketplace) (used for the yahoo-finance api endpoints, which you must subscribe to in your account settings)
+- [CoinAPI](https://www.coinapi.io/Pricing)
 
 ## Setup
 plug in API keys for both your RapidAPI yahoo finance app and your CoinAPI account in the config file (either before packaging in the base-config, or directly in the maubot interface after loading).

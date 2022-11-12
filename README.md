@@ -4,7 +4,7 @@ To install, please see the [standard maubot plugin installation instructions](ht
 
 note: this module depends on having an api key for the following services
 
-- [RapidAPI](https://rapidapi.com/marketplace) (used for the yahoo-finance api endpoints, which you must subscribe to in your account settings)
+- [RapidAPI](https://rapidapi.com/marketplace) (used for the [yahoo-finance api endpoints](https://rapidapi.com/apidojo/api/yh-finance/), which you must subscribe to in your account settings)
 - [CoinAPI](https://www.coinapi.io/Pricing)
 
 ## Setup

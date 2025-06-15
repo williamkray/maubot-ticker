@@ -1,3 +1,13 @@
+## deprecation notice
+the rapidapi endpoint that this plugin uses has had background changes that have made it complicated for new users to configure.
+
+a new version of this plugin has been created at [maubot-financebot](https://github.com/williamkray/maubot-financebot) that uses
+the Alpha Vantage API, which is free for low-volume usage and provides easier access and better documentation.
+
+this is still functional but will no longer be updated or maintained.
+
+## tickerbot
+
 a simple maubot module that responds with financial data about stock price or cryptocurrency exchange rate.
 
 To install, please see the [standard maubot plugin installation instructions](https://github.com/maubot/maubot/wiki/Usage#adding-a-plugin)
